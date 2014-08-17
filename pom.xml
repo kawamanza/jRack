@@ -15,6 +15,7 @@
   </properties>
 
   <modules>
+    <module>jrack-test</module>
   </modules>
 
 </project>
