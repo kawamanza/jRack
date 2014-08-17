@@ -1,0 +1,17 @@
+{
+	"_links": {
+		"self": {
+			"href": "/products",
+			"type": "application/hal+json"
+		},
+		"entrypoint": {
+			"href": "/entrypoint",
+			"type": "application/hal+json"
+		},
+		"product": {
+			"href": "/products/{id}",
+			"type": "application/hal+json",
+			"templated": true
+		}
+	}
+}
