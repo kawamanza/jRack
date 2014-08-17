@@ -16,6 +16,7 @@
 
   <modules>
     <module>jrack-test</module>
+    <module>jrack-jersey-spring</module>
   </modules>
 
 </project>
