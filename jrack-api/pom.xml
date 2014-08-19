@@ -62,6 +62,11 @@
       <artifactId>jrack-api-rs-base</artifactId>
       <version>0.0.1-SNAPSHOT</version>
     </dependency>
+    <dependency>
+      <groupId>jrack.sample</groupId>
+      <artifactId>jrack-sample-products-api</artifactId>
+      <version>0.0.1-SNAPSHOT</version>
+    </dependency>
   </dependencies>
 
 </project>

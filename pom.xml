@@ -18,6 +18,7 @@
     <module>jrack-test</module>
     <module>jrack-jersey-spring</module>
     <module>jrack-api-rs-base</module>
+    <module>jrack-sample-products-api</module>
     <module>jrack-api</module>
   </modules>
 
