@@ -57,6 +57,11 @@
       <artifactId>jrack-jersey-spring</artifactId>
       <version>0.0.1-SNAPSHOT</version>
     </dependency>
+    <dependency>
+      <groupId>jrack</groupId>
+      <artifactId>jrack-api-rs-base</artifactId>
+      <version>0.0.1-SNAPSHOT</version>
+    </dependency>
   </dependencies>
 
 </project>
