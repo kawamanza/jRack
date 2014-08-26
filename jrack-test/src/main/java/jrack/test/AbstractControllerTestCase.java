@@ -61,7 +61,7 @@ abstract public class AbstractControllerTestCase<T> extends AbstractTestCase {
      */
     private DeploymentContext context;
 
-    @Autowired
+    @org.mockito.Spy @Autowired
     protected T controller;
 
     @Autowired
@@ -468,7 +468,7 @@ abstract public class AbstractControllerTestCase<T> extends AbstractTestCase {
      */
     @Before
     public void setUp() throws Exception {
-        this.controller = org.mockito.Mockito.spy(this.controller);
+        org.mockito.MockitoAnnotations.initMocks(this);
         this.context = configureDeployment();
         this.testContainerFactory = getTestContainerFactory();
         if (isLogRecordingEnabled()) {
