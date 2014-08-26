@@ -3,6 +3,10 @@
 		"self": {
 			"href": "/entrypoint",
 			"type": "application/hal+json"
+		},
+		"status": {
+			"href": "/status",
+			"type": "application/hal+json"
 		}
 	}
 }

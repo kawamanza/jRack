@@ -1,0 +1,16 @@
+{
+	"_links": {
+		"self": {
+			"href": "/status",
+			"type": "application/hal+json"
+		},
+		"entrypoint": {
+			"href": "/entrypoint",
+			"type": "application/hal+json"
+		}
+	},
+	"status": {
+		"version": ""
+	},
+	"resourceType": "status"
+}
