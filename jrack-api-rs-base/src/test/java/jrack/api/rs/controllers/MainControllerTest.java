@@ -8,39 +8,17 @@ import java.io.InputStream;
 import java.util.Properties;
 
 import javax.ws.rs.client.Invocation.Builder;
-import javax.ws.rs.core.Application;
 import javax.ws.rs.core.Response;
 
 import jrack.test.AbstractControllerTestCase;
 
-import org.glassfish.jersey.server.ResourceConfig;
-import org.glassfish.jersey.server.spring.SpringLifecycleListener;
 import org.junit.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
-public class MainControllerTest extends AbstractControllerTestCase {
-
-	@Autowired
-	private ApplicationContext applicationContext;
-
-	@Autowired
-	private MainController mainController;
-
-	private MainController spiedController;
-
-	@Override
-	protected Application configure() {
-		spiedController = spy(mainController);
-		return new ResourceConfig().register(spiedController)
-			.property("contextConfig", applicationContext)
-			.register(SpringLifecycleListener.class)
-			;
-	}
+public class MainControllerTest extends AbstractControllerTestCase<MainController> {
 
 	@Test
 	public void testEntrypoint() {
@@ -54,7 +32,7 @@ public class MainControllerTest extends AbstractControllerTestCase {
 	public void testStatus() throws IOException {
 		Properties props = new Properties();
 		props.setProperty("version", "1.0.beta");
-		doReturn(props).when(spiedController).loadProps();
+		doReturn(props).when(controller).loadProps();
 
 		Builder request = target("/status").request();
 		Response response = request.get();

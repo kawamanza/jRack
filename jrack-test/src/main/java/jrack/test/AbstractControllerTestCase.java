@@ -30,6 +30,8 @@ import org.glassfish.jersey.filter.LoggingFilter;
 import org.glassfish.jersey.internal.ServiceFinder;
 import org.glassfish.jersey.internal.util.PropertiesHelper;
 import org.glassfish.jersey.internal.util.ReflectionHelper;
+import org.glassfish.jersey.server.ResourceConfig;
+import org.glassfish.jersey.server.spring.SpringLifecycleListener;
 import org.glassfish.jersey.test.DeploymentContext;
 import org.glassfish.jersey.test.TestProperties;
 import org.glassfish.jersey.test.spi.TestContainer;
@@ -37,8 +39,10 @@ import org.glassfish.jersey.test.spi.TestContainerException;
 import org.glassfish.jersey.test.spi.TestContainerFactory;
 import org.junit.After;
 import org.junit.Before;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 
-abstract public class AbstractControllerTestCase extends AbstractTestCase {
+abstract public class AbstractControllerTestCase<T> extends AbstractTestCase {
 
     private static final Logger LOGGER = Logger.getLogger(AbstractControllerTestCase.class.getName());
 
@@ -56,6 +60,12 @@ abstract public class AbstractControllerTestCase extends AbstractTestCase {
      * Configured deployment context for the tested application.
      */
     private DeploymentContext context;
+
+    @Autowired
+    protected T controller;
+
+    @Autowired
+    private ApplicationContext applicationContext;
 
     /**
      * The test container factory which creates an instance of the test container
@@ -265,7 +275,9 @@ abstract public class AbstractControllerTestCase extends AbstractTestCase {
      * @return tested JAX-RS /Jersey application.
      */
     protected Application configure() {
-        throw new UnsupportedOperationException("The configure method must be implemented by the extending class");
+        return new ResourceConfig().register(controller)
+                .property("contextConfig", applicationContext)
+                .register(SpringLifecycleListener.class);
     }
 
     /**
@@ -456,6 +468,7 @@ abstract public class AbstractControllerTestCase extends AbstractTestCase {
      */
     @Before
     public void setUp() throws Exception {
+        this.controller = org.mockito.Mockito.spy(this.controller);
         this.context = configureDeployment();
         this.testContainerFactory = getTestContainerFactory();
         if (isLogRecordingEnabled()) {
