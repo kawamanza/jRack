@@ -26,6 +26,9 @@ public class MainController {
 	@Context
 	private UriInfo uriInfo;
 
+	@Context
+	private ServletContext context;
+
 	private Properties pomProps;
 
 	@GET
@@ -50,16 +53,9 @@ public class MainController {
 	@GET
 	@Path("status")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response status(@Context ServletContext context) throws IOException {
+	public Response status() throws IOException {
 		if (pomProps == null) {
-			Properties props = new Properties();
-			try {
-				props.load(context
-						.getResourceAsStream("/META-INF/maven/jrack/jrack-api/pom.properties"));
-			} catch (IOException e) {
-				props.setProperty("version", "Error loading version: " + e);
-			}
-			pomProps = props;
+			pomProps = loadProps();
 		}
 		InputStream in = this.getClass().getClassLoader()
 				.getResourceAsStream("jrack/api/rs/views/status.json");
@@ -69,4 +65,16 @@ public class MainController {
 		ResponseBuilder response = Response.ok(entity);
 		return response.build();
 	}
+
+	protected Properties loadProps() {
+		Properties props = new Properties();
+		try {
+			props.load(context
+					.getResourceAsStream("/META-INF/maven/jrack/jrack-api/pom.properties"));
+		} catch (IOException e) {
+			props.setProperty("version", "Error loading version: " + e);
+		}
+		return props;
+	}
+
 }
