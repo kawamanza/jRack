@@ -15,6 +15,7 @@
   </properties>
 
   <modules>
+    <module>jrack-test-unit</module>
     <module>jrack-test</module>
     <module>jrack-jersey-spring</module>
     <module>jrack-api-rs-base</module>
