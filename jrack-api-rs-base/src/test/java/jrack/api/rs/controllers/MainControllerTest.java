@@ -1,5 +1,6 @@
 package jrack.api.rs.controllers;
 
+import static com.jayway.jsonassert.JsonAssert.*;
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
@@ -14,18 +15,16 @@ import jrack.test.AbstractControllerTestCase;
 
 import org.junit.Test;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.node.ObjectNode;
-
 public class MainControllerTest extends AbstractControllerTestCase<MainController> {
 
 	@Test
-	public void testEntrypoint() {
+	public void testEntrypoint() throws IOException {
 		Response response = target("/entrypoint").request().get();
 		assertEquals(200, response.getStatus());
 		assertEquals("application/json", response.getHeaders().getFirst("Content-Type"));
-		assertNotNull(response.getEntity());
+
+		with((InputStream) response.getEntity()).assertEquals(
+				"$._links.self.href", "/entrypoint");
 	}
 
 	@Test
@@ -40,13 +39,8 @@ public class MainControllerTest extends AbstractControllerTestCase<MainControlle
 		assertEquals("application/json",
 				response.getHeaders().getFirst("Content-Type"));
 
-		InputStream entity = (InputStream) response.getEntity();
-		assertNotNull(response.getEntity());
-
-		JsonNode body = new ObjectMapper().readTree(entity);
-		assertFalse(body.path("status").isMissingNode());
-		assertEquals("1.0.beta", ((ObjectNode) body.get("status")).get("version")
-				.asText());
+		with((InputStream) response.getEntity()).assertEquals(
+				"$.status.version", "1.0.beta");
 	}
 
 }
