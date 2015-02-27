@@ -63,6 +63,14 @@
     </plugins>
   </build>
 
+  <distributionManagement>
+    <repository>
+      <id>${dm.repo.id}</id>
+      <name>${dm.repo.name}</name>
+      <url>${dm.repo.url}</url>
+    </repository>
+  </distributionManagement>
+
   <modules>
     <module>jrack-test-unit</module>
     <module>jrack-test</module>
